@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Navigation from './Navigation';
+
 import { useLogOut } from '../../hooks/services/auth/useLogout';
 
 const Header: FC = () => {
@@ -13,9 +15,10 @@ const Header: FC = () => {
 
   return (
     <HeaderStyled>
-      <Link to="/work-spaces">
+      <Link to="/dashboard">
         <Logo>Task Manager</Logo>
       </Link>
+      <Navigation />
 
       <LogOutBtn type="button" onClick={handleLogOutClick} disabled={isPending}>
         Log out

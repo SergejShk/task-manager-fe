@@ -3,7 +3,8 @@ import { Navigate, createBrowserRouter } from 'react-router-dom';
 import SharedLayout from '../components/common/SharedLayout';
 import Public from '../components/routes/Public';
 import Private from '../components/routes/Private';
-import { Dashboard, Login, SignUp } from './pages';
+
+import { Dashboard, Login, SignUp, Statistic } from './pages';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Private component={Dashboard} />,
+      },
+      {
+        path: 'statistic',
+        element: <Private component={Statistic} />,
       },
     ],
   },
