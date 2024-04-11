@@ -1,10 +1,26 @@
-import { FC, Suspense } from 'react';
+import { FC, Suspense, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Loader from './Loader';
 
+import { useGetMe } from '../../hooks/services/auth/useGetMe';
+
 const SharedLayout: FC = () => {
+  const { mutate: getMe, isPending } = useGetMe();
+
+  useEffect(() => {
+    getMe();
+  }, [getMe]);
+
+  if (isPending) {
+    return (
+      <LoaderWrapper>
+        <Loader />
+      </LoaderWrapper>
+    );
+  }
+
   return (
     <LayoutStyled>
       <Suspense
