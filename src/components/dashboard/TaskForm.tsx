@@ -9,8 +9,9 @@ import InputSelect from '../common/InputSelect';
 import { Button } from '../common/Button';
 
 import { statusOptions } from '../../utils/constants';
+import { normalizeDefaultTaskFormValues } from '../../utils/tasks';
 
-import { EStatus, ITask, ITaskFormValues } from '../../interfaces/tasks';
+import { ITask, ITaskFormValues } from '../../interfaces/tasks';
 
 interface IProps {
   initialTask?: ITask;
@@ -33,10 +34,7 @@ const TaskForm: FC<IProps> = ({
     handleSubmit,
     formState: { errors },
   } = useForm<ITaskFormValues>({
-    defaultValues: {
-      title: initialTask?.title || '',
-      status: { value: EStatus.Open, label: 'Open' },
-    },
+    defaultValues: normalizeDefaultTaskFormValues(initialTask),
   });
 
   const descriptionValue = useWatch({

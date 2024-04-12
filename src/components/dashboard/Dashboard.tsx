@@ -9,13 +9,15 @@ import TaskForm from './TaskForm';
 
 import { useTasksList } from '../../hooks/services/tasks/useTasksList';
 import { useCreateTask } from '../../hooks/services/tasks/useCreateTask';
+import { useUpdateTask } from '../../hooks/services/tasks/useUpdateTask';
 
 import { normalizeCreateTaskBody } from '../../utils/tasks';
 
-import { ITaskFormValues } from '../../interfaces/tasks';
+import { ITask, ITaskFormValues } from '../../interfaces/tasks';
 
 const Dashboard: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [activeTask, setActiveTask] = useState<ITask | undefined>(undefined);
 
   const { data: tasks, isFetching, refetch } = useTasksList();
   const {
@@ -24,6 +26,12 @@ const Dashboard: FC = () => {
     isPending: isPendingCreateTask,
     isSuccess: isSuccessCreateTask,
   } = useCreateTask();
+  const {
+    mutate: mutateUpdateTask,
+    isPending: isPendingUpdateTask,
+    error: errorUpdateTask,
+    isSuccess: isSuccessUpdateTask,
+  } = useUpdateTask();
 
   useEffect(() => {
     if (isSuccessCreateTask) {
@@ -32,11 +40,34 @@ const Dashboard: FC = () => {
     }
   }, [isSuccessCreateTask, refetch]);
 
-  const onModalClose = () => setIsOpenModal(false);
+  useEffect(() => {
+    if (isSuccessUpdateTask) {
+      refetch();
+      onModalClose();
+    }
+  }, [isSuccessUpdateTask, refetch]);
+
   const onModalOpen = () => setIsOpenModal(true);
+  const onModalClose = () => {
+    setActiveTask(undefined);
+    setIsOpenModal(false);
+  };
+
+  const onEditClick = (id: number) => {
+    const selectedTask = tasks?.find(task => task.id === id);
+    setActiveTask(selectedTask);
+    setIsOpenModal(true);
+  };
 
   const createTask = (formValues: ITaskFormValues) => {
     mutateCreateTask(normalizeCreateTaskBody(formValues));
+  };
+
+  const updateTask = (formValues: ITaskFormValues) => {
+    if (!activeTask) return;
+    const id = activeTask.id;
+    const payload = normalizeCreateTaskBody(formValues);
+    mutateUpdateTask({ ...payload, id });
   };
 
   return (
@@ -45,16 +76,21 @@ const Dashboard: FC = () => {
         <Button type="button" onClick={onModalOpen}>
           Add task
         </Button>
-        <Table tasks={tasks || []} isLoading={isFetching} />
+        <Table
+          tasks={tasks || []}
+          isLoading={isFetching}
+          handleEdit={onEditClick}
+        />
       </DashboardStyled>
 
       {isOpenModal && (
         <Modal handleModalClose={onModalClose}>
           <TaskForm
-            isLoading={isPendingCreateTask}
-            error={errorCreateTask?.message}
-            handleSaveClick={createTask}
+            isLoading={isPendingCreateTask || isPendingUpdateTask}
+            error={errorCreateTask?.message || errorUpdateTask?.message}
+            handleSaveClick={activeTask ? updateTask : createTask}
             handleCancelClick={onModalClose}
+            initialTask={activeTask}
           />
         </Modal>
       )}

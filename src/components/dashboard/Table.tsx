@@ -11,9 +11,10 @@ import Loader from '../common/Loader';
 interface IProps {
   tasks: ITask[];
   isLoading: boolean;
+  handleEdit: (id: number) => void;
 }
 
-const Table: FC<IProps> = ({ tasks, isLoading }) => {
+const Table: FC<IProps> = ({ tasks, isLoading, handleEdit }) => {
   return (
     <>
       {isLoading && <Loader />}
@@ -47,7 +48,7 @@ const Table: FC<IProps> = ({ tasks, isLoading }) => {
                   <TDataStyled>
                     <Actions
                       id={item.id}
-                      handleEditClick={() => {}}
+                      handleEditClick={handleEdit}
                       handleDeletelick={() => {}}
                     />
                   </TDataStyled>

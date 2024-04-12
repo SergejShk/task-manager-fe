@@ -28,3 +28,23 @@ export const normalizeCreateTaskBody = (
   dueDate: formValues.dueDate,
   status: formValues.status.value,
 });
+
+export const normalizeDefaultTaskFormValues = (
+  data?: ITask
+): ITaskFormValues => {
+  return data
+    ? {
+        title: data.title,
+        description: data.description,
+        assignee: data.assignee,
+        dueDate: data?.dueDate ? new Date(data.dueDate) : undefined,
+        status: { label: statusValue[data.status], value: data.status },
+      }
+    : {
+        title: '',
+        description: '',
+        assignee: '',
+        dueDate: undefined,
+        status: { value: EStatus.Open, label: 'Open' },
+      };
+};
