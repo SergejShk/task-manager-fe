@@ -85,6 +85,10 @@ const Dashboard: FC = () => {
     mutateDeleteTask(id);
   };
 
+  const errorMessage =
+    (errorCreateTask?.response?.data as string) ||
+    (errorUpdateTask?.response?.data as string);
+
   return (
     <>
       <DashboardStyled>
@@ -103,7 +107,7 @@ const Dashboard: FC = () => {
         <Modal handleModalClose={onModalClose}>
           <TaskForm
             isLoading={isPendingCreateTask || isPendingUpdateTask}
-            error={errorCreateTask?.message || errorUpdateTask?.message}
+            error={errorMessage}
             handleSaveClick={activeTask ? updateTask : createTask}
             handleCancelClick={onModalClose}
             initialTask={activeTask}

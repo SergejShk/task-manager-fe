@@ -72,7 +72,7 @@ const SignUp: FC = () => {
         <Button disabled={isPending} $minHeight="42px">
           Sign up
         </Button>
-        {error && <ErrorText>{error.message}</ErrorText>}
+        {error && <ErrorText>{error?.response?.data as string}</ErrorText>}
       </FormStyled>
 
       <LinkStyled to="/">Log in</LinkStyled>
