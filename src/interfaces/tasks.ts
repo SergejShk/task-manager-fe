@@ -23,3 +23,13 @@ export interface ITaskFormValues {
   dueDate?: Date;
   status: { label: string; value: EStatus };
 }
+
+export type IStatisticItem = {
+  [key in string]: number;
+};
+
+export interface IStatistic {
+  status: IStatisticItem;
+  assignee: IStatisticItem;
+  dueDate: IStatisticItem;
+}
