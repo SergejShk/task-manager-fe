@@ -2,19 +2,20 @@ import { FC } from 'react';
 import styled from 'styled-components';
 
 import Actions from '../common/Actions';
+import Loader from '../common/Loader';
 
 import { statusValue } from '../../utils/constants';
 
 import { ITask } from '../../interfaces/tasks';
-import Loader from '../common/Loader';
 
 interface IProps {
   tasks: ITask[];
   isLoading: boolean;
   handleEdit: (id: number) => void;
+  handleDelete: (id: number) => void;
 }
 
-const Table: FC<IProps> = ({ tasks, isLoading, handleEdit }) => {
+const Table: FC<IProps> = ({ tasks, isLoading, handleEdit, handleDelete }) => {
   return (
     <>
       {isLoading && <Loader />}
@@ -49,7 +50,7 @@ const Table: FC<IProps> = ({ tasks, isLoading, handleEdit }) => {
                     <Actions
                       id={item.id}
                       handleEditClick={handleEdit}
-                      handleDeletelick={() => {}}
+                      handleDeletelick={handleDelete}
                     />
                   </TDataStyled>
                 </tr>

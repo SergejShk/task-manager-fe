@@ -30,6 +30,7 @@ const Header: FC = () => {
 export default Header;
 
 const HeaderStyled = styled.header`
+  min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;

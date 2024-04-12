@@ -30,6 +30,6 @@ export default Private;
 const Container = styled.div`
   background-color: #b4c0ee;
   min-width: calc(100% - 30px);
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - 70px);
   padding: 15px;
 `;

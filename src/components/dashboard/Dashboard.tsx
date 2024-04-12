@@ -10,6 +10,7 @@ import TaskForm from './TaskForm';
 import { useTasksList } from '../../hooks/services/tasks/useTasksList';
 import { useCreateTask } from '../../hooks/services/tasks/useCreateTask';
 import { useUpdateTask } from '../../hooks/services/tasks/useUpdateTask';
+import { useDeleteTask } from '../../hooks/services/tasks/useDeleteTask';
 
 import { normalizeCreateTaskBody } from '../../utils/tasks';
 
@@ -32,6 +33,11 @@ const Dashboard: FC = () => {
     error: errorUpdateTask,
     isSuccess: isSuccessUpdateTask,
   } = useUpdateTask();
+  const {
+    mutate: mutateDeleteTask,
+    isPending: isPendingDeleteTask,
+    isSuccess: isSuccessDeleteTask,
+  } = useDeleteTask();
 
   useEffect(() => {
     if (isSuccessCreateTask) {
@@ -46,6 +52,11 @@ const Dashboard: FC = () => {
       onModalClose();
     }
   }, [isSuccessUpdateTask, refetch]);
+
+  useEffect(() => {
+    if (!isSuccessDeleteTask) return;
+    refetch();
+  }, [isSuccessDeleteTask, refetch]);
 
   const onModalOpen = () => setIsOpenModal(true);
   const onModalClose = () => {
@@ -70,6 +81,10 @@ const Dashboard: FC = () => {
     mutateUpdateTask({ ...payload, id });
   };
 
+  const DeleteTask = (id: number) => {
+    mutateDeleteTask(id);
+  };
+
   return (
     <>
       <DashboardStyled>
@@ -78,8 +93,9 @@ const Dashboard: FC = () => {
         </Button>
         <Table
           tasks={tasks || []}
-          isLoading={isFetching}
+          isLoading={isFetching || isPendingDeleteTask}
           handleEdit={onEditClick}
+          handleDelete={DeleteTask}
         />
       </DashboardStyled>
 
