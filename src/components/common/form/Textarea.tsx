@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import { ErrorText } from './ErrorText';
 
-import useAutosizeTextArea from '../../hooks/useAutosizeTextArea';
+import useAutosizeTextArea from '../../../hooks/useAutosizeTextArea';
 
 type TextareaProps<TFormValues extends FieldValues> = {
   name: Path<TFormValues>;

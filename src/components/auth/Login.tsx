@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import GoogleLink from '../common/GoogleLink';
-import Input from '../common/Input';
+import Input from '../common/form/Input';
 import { Button } from '../common/Button';
 
 import { useLogin } from '../../hooks/services/auth/useLogin';

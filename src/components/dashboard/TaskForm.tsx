@@ -2,10 +2,10 @@ import { FC } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import styled from 'styled-components';
 
-import Input from '../common/Input';
-import Textarea from '../common/Textarea';
-import Datepicker from '../common/Datepicker';
-import InputSelect from '../common/InputSelect';
+import Input from '../common/form/Input';
+import Textarea from '../common/form/Textarea';
+import Datepicker from '../common/form/Datepicker';
+import InputSelect from '../common/form/InputSelect';
 import { Button } from '../common/Button';
 
 import { statusOptions } from '../../utils/constants';
