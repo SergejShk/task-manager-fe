@@ -1,5 +1,11 @@
-import { EStatus, ITask, ITaskFormValues } from '../interfaces/tasks';
 import { statusValue } from './constants';
+
+import {
+  EStatus,
+  ICreateTaskBody,
+  ITask,
+  ITaskFormValues,
+} from '../interfaces/tasks';
 
 export const defaultTaskFormValues = (
   initialTask?: ITask
@@ -11,4 +17,14 @@ export const defaultTaskFormValues = (
   status: initialTask
     ? { label: statusValue[initialTask.status], value: initialTask.status }
     : { label: 'Open', value: EStatus.Open },
+});
+
+export const normalizeCreateTaskBody = (
+  formValues: ITaskFormValues
+): ICreateTaskBody => ({
+  title: formValues.title,
+  description: formValues.description,
+  assignee: formValues.assignee || undefined,
+  dueDate: formValues.dueDate,
+  status: formValues.status.value,
 });

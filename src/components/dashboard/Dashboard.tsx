@@ -7,13 +7,17 @@ import Modal from '../common/Modal';
 import Table from './Table';
 import TaskForm from './TaskForm';
 
+import { useTasksList } from '../../hooks/services/tasks/useTasksList';
 import { useCreateTask } from '../../hooks/services/tasks/useCreateTask';
+
+import { normalizeCreateTaskBody } from '../../utils/tasks';
 
 import { ITaskFormValues } from '../../interfaces/tasks';
 
 const Dashboard: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
+  const { data: tasks, isFetching, refetch } = useTasksList();
   const {
     mutate: mutateCreateTask,
     error: errorCreateTask,
@@ -23,23 +27,16 @@ const Dashboard: FC = () => {
 
   useEffect(() => {
     if (isSuccessCreateTask) {
+      refetch();
       onModalClose();
     }
-  }, [isSuccessCreateTask]);
+  }, [isSuccessCreateTask, refetch]);
 
   const onModalClose = () => setIsOpenModal(false);
   const onModalOpen = () => setIsOpenModal(true);
 
   const createTask = (formValues: ITaskFormValues) => {
-    const payload = {
-      title: formValues.title,
-      description: formValues.description,
-      assignee: formValues.assignee || undefined,
-      dueDate: formValues.dueDate,
-      status: formValues.status.value,
-    };
-
-    mutateCreateTask(payload);
+    mutateCreateTask(normalizeCreateTaskBody(formValues));
   };
 
   return (
@@ -48,7 +45,7 @@ const Dashboard: FC = () => {
         <Button type="button" onClick={onModalOpen}>
           Add task
         </Button>
-        <Table />
+        <Table tasks={tasks || []} isLoading={isFetching} />
       </DashboardStyled>
 
       {isOpenModal && (
