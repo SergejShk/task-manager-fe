@@ -73,6 +73,7 @@ const Label = styled.label`
 `;
 
 const InputStyled = styled.input`
+  min-height: 44px;
   border-radius: 4px;
   border: 1px solid #6b7fca;
   background-color: #fff;

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
+
 import Actions from '../common/Actions';
 
 const data = [
