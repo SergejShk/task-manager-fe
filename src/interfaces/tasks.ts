@@ -4,13 +4,16 @@ export enum EStatus {
   Done = 'done',
 }
 
-export interface ITask {
-  id: number;
+export interface ICreateTaskBody {
   title: string;
   description: string;
   assignee?: string;
   dueDate?: Date;
   status: EStatus;
+}
+
+export interface ITask extends ICreateTaskBody {
+  id: number;
 }
 
 export interface ITaskFormValues {

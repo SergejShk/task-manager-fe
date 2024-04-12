@@ -73,9 +73,7 @@ const Login: FC = () => {
           Login
         </Button>
 
-        {error && (
-          <ErrorText>{error?.response?.data || error.message}</ErrorText>
-        )}
+        {error && <ErrorText>{error.message}</ErrorText>}
       </FormStyled>
 
       <LinkStyled to="sign-up">Sign up</LinkStyled>

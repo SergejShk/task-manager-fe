@@ -61,7 +61,7 @@ const TaskForm: FC<IProps> = ({
         register={register}
         rules={{ required: { value: true, message: 'Required' } }}
         value={descriptionValue}
-        error={errors?.description?.message || error}
+        error={errors?.description?.message}
       />
 
       <Input
@@ -69,7 +69,7 @@ const TaskForm: FC<IProps> = ({
         name="assignee"
         label={<NameLabel>Assignee</NameLabel>}
         register={register}
-        error={errors?.assignee?.message || error}
+        error={errors?.assignee?.message}
       />
 
       <Controller

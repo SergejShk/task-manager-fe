@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '../common/Button';
@@ -7,16 +7,39 @@ import Modal from '../common/Modal';
 import Table from './Table';
 import TaskForm from './TaskForm';
 
+import { useCreateTask } from '../../hooks/services/tasks/useCreateTask';
+
 import { ITaskFormValues } from '../../interfaces/tasks';
 
 const Dashboard: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
+  const {
+    mutate: mutateCreateTask,
+    error: errorCreateTask,
+    isPending: isPendingCreateTask,
+    isSuccess: isSuccessCreateTask,
+  } = useCreateTask();
+
+  useEffect(() => {
+    if (isSuccessCreateTask) {
+      onModalClose();
+    }
+  }, [isSuccessCreateTask]);
+
   const onModalClose = () => setIsOpenModal(false);
   const onModalOpen = () => setIsOpenModal(true);
 
   const createTask = (formValues: ITaskFormValues) => {
-    console.log('formValues', formValues);
+    const payload = {
+      title: formValues.title,
+      description: formValues.description,
+      assignee: formValues.assignee || undefined,
+      dueDate: formValues.dueDate,
+      status: formValues.status.value,
+    };
+
+    mutateCreateTask(payload);
   };
 
   return (
@@ -31,7 +54,8 @@ const Dashboard: FC = () => {
       {isOpenModal && (
         <Modal handleModalClose={onModalClose}>
           <TaskForm
-            isLoading={false}
+            isLoading={isPendingCreateTask}
+            error={errorCreateTask?.message}
             handleSaveClick={createTask}
             handleCancelClick={onModalClose}
           />
